@@ -71,6 +71,12 @@ namespace Promitor.Integrations.Azure.Authentication
             {
                 if (string.IsNullOrWhiteSpace(identityId))
                 {
+                    // Use environment variable for Azure Workload Identity compatibility
+                    identityId = configuration.GetValue<string>(EnvironmentVariables.Authentication.AzureClientId);
+                }
+
+                if (string.IsNullOrWhiteSpace(identityId))
+                {
                     throw new AuthenticationException("No identity was configured for user-assigned managed identity");
                 }
             }
